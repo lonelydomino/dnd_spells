@@ -1,4 +1,13 @@
-require "dnd_spells/version"
+
+require 'pry'
+require 'httparty'
+
+require_relative "dnd_spells/version"
+require_relative "dnd_spells/cli"
+require_relative "dnd_spells/api"
+require_relative "dnd_spells/spell"
+
+
 
 module DndSpells
   class Error < StandardError; end

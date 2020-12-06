@@ -1,0 +1,24 @@
+require 'pry'
+require 'httparty'
+
+
+require_relative '../lib/dnd_spells'
+
+puts "---Start---"
+CLI.new.run
+
+puts "---End--"
+
+
+
+#data = HTTParty.get("https://www.dnd5eapi.co/api/spells/acid-arrow")
+#puts data["duration"]
+#data["material"]
+#data["damage"]["damage_type"]["name"] goes into hash and retrieves spell damage type
+#data["school"]["name"]
+#data["damage"]["damage_at_slot_level"] gets hash of levels and dice per slot
+#puts data["attack_type"]
+#data["duration"]
+#data["higher_level"]
+#data["level"]
+#data["classes"]["name"]
