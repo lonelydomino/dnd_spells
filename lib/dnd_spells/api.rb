@@ -1,13 +1,9 @@
-require 'pry'
-require 'rubygems'
-require 'httparty'
-
-class API
+class DndSpells::API
 
     def self.get_spell_collection
         data = HTTParty.get("https://www.dnd5eapi.co/api/spells")
         spells = data["results"]
-        Spell.new_from_spell_collection(spells) 
+        DndSpells::Spell.new_from_spell_collection(spells) 
     end
 
     def self.get_spell_attributes(spell_index)
