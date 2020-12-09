@@ -37,7 +37,6 @@ class DndSpells::CLI
             choice = gets.to_i  
             if choice >= 1 && choice <= 319
                 puts "Getting details........"
-                #get spell details here
                 load_spell_attributes(choice)
                 list_spell_attributes(choice)
             else
@@ -45,7 +44,7 @@ class DndSpells::CLI
             end
         when 2
             puts "Selected: Option 2: List Spells by class"
-            #list spells by class
+            list_spells_by_class
         when 3
             #quits program
             puts "Selected: Option 3: Quit"
@@ -65,11 +64,42 @@ class DndSpells::CLI
                 spell.print_spell_attributes
             end
         end
-
     end
 
     def list_spells_by_class
+        spell_hash = {}
+        num_id = 0
+        klass_hash = {}
 
+        DndSpells::Spell.all.each do |spell|
+            if spell_hash.has_key?(spell.klass)
+                spell_hash[spell.klass].push(spell.name)
+              else
+                spell_hash[spell.klass] = []
+                spell_hash[spell.klass].push(spell.name)
+            end
+        end
+        spell_hash.each do |k,v|
+         puts "-----#{k}-----"
+         v.each do |k|
+           puts "#{num_id=num_id+1} #{k}"
+           klass_hash[num_id] = k
+         end
+       end
+        puts "-------------------------------------"
+        print "Selection: "
+        choice = gets.to_i
+        klass_hash.each do |k,v|
+            if k == choice
+                DndSpells::Spell.all.each do |spell|
+                    if spell.name == v
+                        load_spell_attributes(spell.spell_index)
+                        list_spell_attributes(spell.spell_index)
+                    end
+                end
+            end
+        end
+        
     end
 
     def load_spells
@@ -81,3 +111,12 @@ class DndSpells::CLI
     end
 
 end
+
+#Wizard
+        #Sorcerer
+        #Cleric
+        #Ranger
+        #Bard
+        #Druid
+        #Paladin
+        #Warlock

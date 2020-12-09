@@ -1,4 +1,5 @@
 class DndSpells::Spell
+
     attr_accessor :name, :id_num, :spell_index, :desc, :desc, :range, :klass, :attack_type, :duration, :level, :damage_type
 
     @@all = []
@@ -7,9 +8,10 @@ class DndSpells::Spell
         @id_num = @@all.length + 1
         @name = name
         @spell_index = index
+        set_klass(index)
         save
     end
-    
+
     def self.new_from_spell_collection(data)
         data.each do |item|
             name = item["name"]
@@ -18,9 +20,15 @@ class DndSpells::Spell
         end
     end
 
+    def set_klass(index)
+        spell_data = DndSpells::API.get_spell_attributes(index)
+        @klass = spell_data["classes"][0]["name"]
+    end
+
     def self.all
         @@all
     end
+
     def self.get_spells
         DndSpells::API.get_spell_collection
     end
@@ -59,4 +67,5 @@ class DndSpells::Spell
     def save 
         @@all << self
     end
+    
 end
