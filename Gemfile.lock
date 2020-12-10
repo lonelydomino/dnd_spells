@@ -1,0 +1,29 @@
+PATH
+  remote: .
+  specs:
+    dnd_spells (0.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rake (12.3.3)
+    strings-ansi (0.1.0)
+    tty-cursor (0.7.1)
+    tty-progressbar (0.17.0)
+      strings-ansi (~> 0.1.0)
+      tty-cursor (~> 0.7)
+      tty-screen (~> 0.7)
+      unicode-display_width (~> 1.6)
+    tty-screen (0.8.1)
+    unicode-display_width (1.7.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  dnd_spells!
+  rake (~> 12.0)
+  tty-progressbar
+
+BUNDLED WITH
+   2.1.4
