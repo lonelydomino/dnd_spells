@@ -21,7 +21,7 @@ class DndSpells::CLI
 
     def quit
         puts "\n\nExiting program..."
-        puts "\nThanks for using this program!\n\n\n"
+        puts "\n\nThanks for using this program!\n\n\n"
     end
     def check_command_input(input)
         if input >= 1 && input <= 3
@@ -68,7 +68,7 @@ class DndSpells::CLI
     end
 
     def search_again?
-        puts "What would you like to do?"
+        puts "\n\nWhat would you like to do?"
         puts "1. Search again."
         puts "2. Quit"
         print "Selection: "
@@ -102,29 +102,14 @@ class DndSpells::CLI
     end
 
     def list_spells_by_class
-        spell_hash = {}
-        num_id = 0
-        klass_hash = {}
-
-        DndSpells::Spell.all.each do |spell|
-            if spell_hash.has_key?(spell.klass)
-                spell_hash[spell.klass].push(spell.name)
-              else
-                spell_hash[spell.klass] = []
-                spell_hash[spell.klass].push(spell.name)
-            end
+        if DndSpells::Spell.get_klass_hash.empty?
+            DndSpells::Spell.set_klass_hash
         end
-        spell_hash.each do |k,v|
-         puts "-----#{k}-----"
-         v.each do |k|
-           puts "#{num_id=num_id+1}. #{k}"
-           klass_hash[num_id] = k
-         end
-       end
-        puts "-------------------------------------"
-        print "Selection: "
-        choice = gets.strip.to_i
-        klass_hash.each do |k,v|
+
+        DndSpells::Spell.print_klass_hash
+        
+        choice = check_spell_input
+        DndSpells::Spell.get_klass_hash.each do |k,v|
             if k == choice
                 spell = DndSpells::Spell.all.detect{|spell| spell.name == v}
                 load_spell_attributes(spell)

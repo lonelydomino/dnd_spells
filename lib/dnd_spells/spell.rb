@@ -3,6 +3,9 @@ class DndSpells::Spell
     attr_accessor :name, :id_num, :spell_index, :desc, :desc, :range, :klass, :attack_type, :duration, :level, :damage_type, :school
 
     @@all = []
+    @@klass_hash = {}
+    @@spell_hash = {}
+
 
     def initialize(name, index) 
         @id_num = @@all.length + 1
@@ -30,7 +33,9 @@ class DndSpells::Spell
     end
 
     def self.get_spells
-        DndSpells::API.get_spell_collection
+        if self.all.empty?
+            DndSpells::API.get_spell_collection
+        end
     end
     def self.find_spell_by_id_num(input)
         all.detect {|spell| spell.id_num == input}
@@ -51,8 +56,8 @@ class DndSpells::Spell
     end
 
     def print_spell_attributes
-        puts "\nName: #{self.name}"
-        puts "Desc: #{self.desc}"
+        puts "\nName: #{self.name}\n"
+        puts "\nDesc: #{self.desc}"
         puts "Range: #{self.range}"
         puts "Attack Type: #{self.attack_type}" if self.attack_type != nil
         puts "Duration: #{self.duration}"
@@ -65,5 +70,42 @@ class DndSpells::Spell
     def save 
         @@all << self
     end
+
+    def self.set_klass_hash
+        num_id = 1
+
+        all.each do |spell|
+            if @@spell_hash.has_key?(spell.klass)
+                @@spell_hash[spell.klass].push(spell.name)
+            else
+                @@spell_hash[spell.klass] = []
+                @@spell_hash[spell.klass].push(spell.name)
+            end
+        end
+        @@spell_hash.each do |k,v|
+            v.each do |k|
+                @@klass_hash[num_id] = k
+                num_id += 1
+           end
+       end
+    end
     
+    def self.get_klass_hash
+        @@klass_hash
+    end
+      
+    def self.print_klass_hash
+        num_id = 1
+        @@spell_hash.each do |k,v|
+            puts "\n-----#{k}-----\n"
+            v.each do |k|
+                puts "#{num_id}. #{k}"
+                @@klass_hash[num_id] = k
+                num_id += 1
+           end
+        end
+        puts "\n\n-------------------------------------\n\n"
+    end
+
+
 end
