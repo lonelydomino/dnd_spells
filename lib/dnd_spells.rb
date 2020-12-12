@@ -1,6 +1,7 @@
 
 require 'pry'
 require 'httparty'
+require 'tty-progressbar'
 
 require_relative "./dnd_spells/version"
 require_relative "./dnd_spells/cli"

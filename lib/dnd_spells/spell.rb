@@ -1,6 +1,6 @@
 class DndSpells::Spell
 
-    attr_accessor :name, :id_num, :spell_index, :desc, :desc, :range, :klass, :attack_type, :duration, :level, :damage_type, :school
+    attr_accessor :name, :id_num, :spell_index, :desc, :desc, :range, :klass, :attack_type, :duration, :level, :damage_type, :school, :klass_id
 
     @@all = []
     @@klass_hash = {}
@@ -16,9 +16,13 @@ class DndSpells::Spell
     end
 
     def self.new_from_spell_collection(data)
+        bar = TTY::ProgressBar.new("Loading [:bar]", total: data.size)
+        
         data.each do |item|
             name = item["name"]
             index = item["index"]
+            sleep(0.1)
+            bar.advance(1)
             new(name, index)
         end
     end
@@ -32,13 +36,28 @@ class DndSpells::Spell
         @@all
     end
 
-    def self.get_spells
-        if self.all.empty?
-            DndSpells::API.get_spell_collection
+    def self.spell_sort(char, page)
+        if char == 'k'
+            if page == 1
+                @@all[0..100] = all[0..100].sort{|a, b| (a.klass == b.klass) ? a.name <=> b.name : a.klass <=> b.klass} 
+            elsif page == 2
+                @@all[101..200] = all[101..200].sort! {|a, b| (a.klass == b.klass) ? a.name <=> b.name : a.klass <=> b.klass}
+            elsif page == 3
+                @@all[201..319] = all[201..319].sort! {|a, b| (a.klass == b.klass) ? a.name <=> b.name : a.klass <=> b.klass}
+            end
+        elsif char == 'a'
+            if page == 1
+                @@all[0..100] = all[0..100].sort! {|a,b| a.name <=> b.name}
+            elsif page == 2
+                @@all[101..200] = all[101..200].sort! { |a, b| a.name <=> b.name }
+            elsif page == 3
+                @@all[201..319] = all[201..319].sort! { |a, b| a.name <=> b.name }
+            end
         end
     end
-    def self.find_spell_by_id_num(input)
-        all.detect {|spell| spell.id_num == input}
+
+    def self.get_spells(page)
+            DndSpells::API.get_spell_collection(page)
     end
 
     def self.get_spell_attributes(spell_obj)
@@ -64,47 +83,11 @@ class DndSpells::Spell
         puts "Damage Type: #{self.damage_type}" if self.damage_type != nil
         puts "Level: #{self.level}"
         puts "Class: #{self.klass}"
-        puts "Magic School: #{self.school}"
+        puts "Magic School: #{self.school}\n"
     end
 
     def save 
         @@all << self
-    end
-
-    def self.set_klass_hash
-        num_id = 1
-
-        all.each do |spell|
-            if @@spell_hash.has_key?(spell.klass)
-                @@spell_hash[spell.klass].push(spell.name)
-            else
-                @@spell_hash[spell.klass] = []
-                @@spell_hash[spell.klass].push(spell.name)
-            end
-        end
-        @@spell_hash.each do |k,v|
-            v.each do |k|
-                @@klass_hash[num_id] = k
-                num_id += 1
-           end
-       end
-    end
-    
-    def self.get_klass_hash
-        @@klass_hash
-    end
-      
-    def self.print_klass_hash
-        num_id = 1
-        @@spell_hash.each do |k,v|
-            puts "\n-----#{k}-----\n"
-            v.each do |k|
-                puts "#{num_id}. #{k}"
-                @@klass_hash[num_id] = k
-                num_id += 1
-           end
-        end
-        puts "\n\n-------------------------------------\n\n"
     end
 
 
