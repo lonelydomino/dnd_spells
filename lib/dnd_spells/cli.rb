@@ -25,7 +25,6 @@ class DndSpells::CLI
 
     def check_command_input(input)
         if input >= 1 && input <= 3
-        #fix later, nothing needs to be here
         else
             puts "\n\nPlease enter correct input.\n\n"
             run
@@ -55,7 +54,7 @@ class DndSpells::CLI
             print "            \r"
             page2_commands
         elsif input >= 201 && input <= 318 && @@current_page == 3
-            spell_obj = DndSpells::Spell.all[input]   # DndSpells::Spell.find_spell_by_id_num(input)
+            spell_obj = DndSpells::Spell.all[input]
             load_spell_attributes(spell_obj)
             list_spell_attributes(spell_obj)
             print "\nPress any key to continue..."                                                                                                    

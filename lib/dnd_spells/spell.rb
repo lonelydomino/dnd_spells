@@ -3,9 +3,6 @@ class DndSpells::Spell
     attr_accessor :name, :id_num, :spell_index, :desc, :desc, :range, :klass, :attack_type, :duration, :level, :damage_type, :school, :klass_id
 
     @@all = []
-    @@klass_hash = {}
-    @@spell_hash = {}
-
 
     def initialize(name, index) 
         @id_num = @@all.length + 1
