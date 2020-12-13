@@ -39,7 +39,7 @@ class DndSpells::CLI
         input = gets.strip.to_i  
         input -= 1
         if input >= 0 && input <= 100 && @@current_page == 1
-            spell_obj = DndSpells::Spell.all[input]   # DndSpells::Spell.find_spell_by_id_num(input)
+            spell_obj = DndSpells::Spell.all[input]
             load_spell_attributes(spell_obj)
             list_spell_attributes(spell_obj)
             print "\nPress any key to continue..."                                                                                                    
@@ -47,7 +47,7 @@ class DndSpells::CLI
             print "            \r"
             page1_commands
         elsif input >= 101 && input <= 200 && @@current_page == 2
-            spell_obj = DndSpells::Spell.all[input]  # DndSpells::Spell.find_spell_by_id_num(input)
+            spell_obj = DndSpells::Spell.all[input]
             load_spell_attributes(spell_obj)
             list_spell_attributes(spell_obj)
             print "\nPress any key to continue..."                                                                                                    
@@ -77,7 +77,7 @@ class DndSpells::CLI
             page1_commands
         when 2
             puts "Selected: Option 2: List Spells by class"
-            puts "\nGetting details........\n"
+            puts "\nGetting spells........\n"
             @@klass_sort = true
             @@current_page = 1
             page1_commands

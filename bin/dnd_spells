@@ -1,8 +1,8 @@
-
 #!/usr/bin/env ruby
 
+require "bundler/setup"
+require_relative "../lib/dnd_spells.rb"
 
-require_relative '../lib/dnd_spells'
 
 DndSpells::CLI.new.call
 
