@@ -40,6 +40,7 @@ class DndSpells::CLI
         print "Spell Selection: "
         input = gets.strip.to_i  
         input -= 1
+
         if input >= 0 && input <= 100 && @@current_page == 1
             spell_obj = DndSpells::Spell.all[input]
             load_spell_attributes(spell_obj)
@@ -182,27 +183,52 @@ class DndSpells::CLI
     end
 
     def list_spells(page)
+        table = TTY::Table.new(header: ["Class", "Spell Name", "ID"])
         if @@klass_sort == true
             if page == 1
                 DndSpells::Spell.spell_sort('k', 1)
-                DndSpells::Spell.all[0..100].each_with_index {|a, i| puts "#{a.klass} --- #{i+1} --- #{a.name}"}
+                DndSpells::Spell.all[0..100].each_with_index do |a, i|
+                    i = i + 1
+                    table << [a.klass, a.name, i.to_s]
+                end
+                puts table.render(:unicode,alignments: [:left, :center, :center])
             elsif page == 2
                 DndSpells::Spell.spell_sort('k', 2)
-                DndSpells::Spell.all[101..200].each_with_index {|a, i| puts "#{a.klass} --- #{i+102} --- #{a.name}"}
+                DndSpells::Spell.all[101..200].each_with_index do |a, i|
+                    i = i + 102
+                    table << [a.klass, a.name, i.to_s]
+                end
+                puts table.render(:unicode,alignments: [:left, :center, :center])
             elsif page == 3
                 DndSpells::Spell.spell_sort('k', 3)
-                DndSpells::Spell.all[201..319].each_with_index {|a, i| puts "#{a.klass} --- #{i+202} --- #{a.name}"}
+                DndSpells::Spell.all[201..319].each_with_index do |a, i|
+                    i = i + 202
+                    table << [a.klass, a.name, i.to_s]
+                end
+                puts table.render(:unicode,alignments: [:left, :center, :center])
             end
         elsif @@klass_sort == false
             if page == 1
                 DndSpells::Spell.spell_sort('a',1)
-                DndSpells::Spell.all[0..100].each_with_index {|a, i| puts "#{a.klass} --- #{i+1} --- #{a.name}"}
+                DndSpells::Spell.all[0..100].each_with_index do |a, i|
+                    i = i + 1
+                    table << [a.klass, a.name, i.to_s]
+                end
+                puts table.render(:unicode,alignments: [:left, :center, :center])
             elsif page == 2
                 DndSpells::Spell.spell_sort('a',2)
-                DndSpells::Spell.all[101..200].each_with_index {|a, i| puts "#{a.klass} --- #{i+102} --- #{a.name}"}
+                DndSpells::Spell.all[101..200].each_with_index do |a, i|
+                    i = i + 102
+                    table << [a.klass, a.name, i.to_s]
+                end
+                puts table.render(:unicode,alignments: [:left, :center, :center])
             elsif page == 3
                 DndSpells::Spell.spell_sort('a',3)
-                DndSpells::Spell.all[201..319].each_with_index {|a, i| puts "#{a.klass} --- #{i+202} --- #{a.name}"}
+                DndSpells::Spell.all[201..319].each_with_index do |a, i|
+                    i = i + 202
+                    table << [a.klass, a.name, i.to_s]
+                end
+                puts table.render(:unicode,alignments: [:left, :center, :center])
             end
         end
     end

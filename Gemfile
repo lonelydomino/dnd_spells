@@ -6,3 +6,5 @@ gemspec
 gem "rake", "~> 12.0"
 gem "tty-progressbar"
 gem 'tty-prompt'
+gem "tty-table"
+gem "pastel"
