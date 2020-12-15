@@ -13,3 +13,4 @@ require_relative "./dnd_spells/spell"
 require 'pry'
 require 'httparty'
 require 'tty-progressbar'
+require 'tty-prompt'

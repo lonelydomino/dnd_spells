@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "httparty"
   spec.add_dependency "tty-progressbar"
   spec.add_dependency "pry"
+  spec.add_dependency 'tty-prompt'
 end

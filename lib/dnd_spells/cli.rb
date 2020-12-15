@@ -1,5 +1,7 @@
 class DndSpells::CLI
     @@current_page = 0
+    
+    
 
     def call 
         puts "\nWelcome to Dnd Spells!\n\n"     
@@ -7,13 +9,14 @@ class DndSpells::CLI
     end
 
     def run
-        input = 0
-        puts "\nWhat would you like to do?\n\n"
-        puts "1. List all spells alphabetically"
-        puts "2. List all spells by character class"
-        puts "3. Quit\n\n" 
-        print "Selection: "
-        input = gets.strip.to_i
+        prompt = TTY::Prompt.new
+        input = prompt.select("\nWhat would you like to do?\n\n", cycle: true) do |menu|
+            menu.enum "."
+            menu.choice "List all spells alphabetically\n", 1
+            menu.choice "List all spells by character class\n", 2
+            menu.choice "Quit\n\n", 3
+        end
+
         check_command_input(input)
         menu_choice(input)
     end
@@ -70,12 +73,11 @@ class DndSpells::CLI
     def menu_choice(input)
         case input
         when 1
-            puts "\nListing spells alphabetically....\n"
+            puts "\nGetting spells........\n"
             @@klass_sort = false
             @@current_page = 1
             page1_commands
         when 2
-            puts "Selected: Option 2: List Spells by class"
             puts "\nGetting spells........\n"
             @@klass_sort = true
             @@current_page = 1
@@ -89,14 +91,16 @@ class DndSpells::CLI
         load_spells(1)  if DndSpells::Spell.all[0] == nil
         @@current_page = 1
         list_spells(1)
-        puts "\n\nWhat would you like to do?"
-        puts "1. Select Spell"
-        puts "2. Next Page"
-        puts "3. Menu"
-        puts "4. Quit\n"
-        print "Selection: "
 
-        input = gets.strip.to_i
+        prompt = TTY::Prompt.new
+        input = prompt.select("\n\nWhat would you like to do?\n", cycle: true) do |menu|
+            menu.enum "."
+            menu.choice "Select Spell\n", 1
+            menu.choice "Next Page\n", 2
+            menu.choice "Menu\n", 3
+            menu.choice "Quit\n\n", 4
+        end
+
         if input == 1
             check_spell_input
         elsif input == 2
@@ -116,15 +120,16 @@ class DndSpells::CLI
         load_spells(2) if DndSpells::Spell.all[101] == nil
         @@current_page = 2
         list_spells(2)
-        puts "\n\nWhat would you like to do?"
-        puts "1. Select Spell"
-        puts "2. Next Page"
-        puts "3. Previous Page"
-        puts "4. Menu"
-        puts "5. Quit"
-        print "Selection: "
-    
-            input = gets.strip.to_i
+
+        prompt = TTY::Prompt.new
+        input = prompt.select("\n\nWhat would you like to do?\n", cycle: true) do |menu|
+            menu.enum "."
+            menu.choice "Select Spell\n", 1
+            menu.choice "Next Page\n", 2
+            menu.choice "Previous Page\n", 3
+            menu.choice "Menu\n", 4
+            menu.choice "Quit\n\n", 5
+        end
             if input == 1
                 check_spell_input
             elsif input == 2
@@ -145,26 +150,27 @@ class DndSpells::CLI
         load_spells(3) if DndSpells::Spell.all[201] == nil
         @@current_page = 3
         list_spells(3)
-        puts "\n\nWhat would you like to do?"
-        puts "1. Select Spell"
-        puts "2. Previous Page"
-        puts "3. Menu"
-        puts "4. Quit"
-        print "Selection: "
-    
-            input = gets.strip.to_i
-            if input == 1
-                check_spell_input
-            elsif input == 2
-                page2_commands
-            elsif input == 3
-                run
-            elsif input == 4
-                quit
-            else
-                puts "\n\nPlease enter correct input!\n\n"
-                page3_commands
-            end
+        prompt = TTY::Prompt.new
+        input = prompt.select("\n\n What would you like to do?\n", cycle: true) do |menu|
+            menu.enum "."
+            menu.choice "Select Spell\n", 1
+            menu.choice "Previous Page\n", 2
+            menu.choice "Menu\n", 3
+            menu.choice "Quit\n\n", 4
+        end
+
+        if input == 1
+            check_spell_input
+        elsif input == 2
+            page2_commands
+        elsif input == 3
+            run
+        elsif input == 4
+            quit
+        else
+            puts "\n\nPlease enter correct input!\n\n"
+            page3_commands
+        end
     end
 
     def load_spells(page)
