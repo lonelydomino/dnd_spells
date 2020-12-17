@@ -60,12 +60,12 @@ class DndSpells::CLI
         case input
         when 1
             puts "\nGetting spells........\n"
-            @@klass_sort = false
+            @@sort = 'a'
             @@current_page = 1
             page1_commands
         when 2
             puts "\nGetting spells........\n"
-            @@klass_sort = true
+            @@sort = 'k'
             @@current_page = 1
             page1_commands
         when 3
@@ -158,53 +158,26 @@ class DndSpells::CLI
 
     def list_spells(page)
         table = TTY::Table.new(header: ["Class", "Spell Name", "ID"])
-        if @@klass_sort == true
-            if page == 1
-                DndSpells::Spell.spell_sort('k', 1)
-                DndSpells::Spell.all[0..100].each_with_index do |a, i|
-                    i = i + 1
-                    table << [a.klass, a.name, i.to_s]
-                end
-                puts table.render(:unicode,alignments: [:left, :center, :center])
-            elsif page == 2
-                DndSpells::Spell.spell_sort('k', 2)
-                DndSpells::Spell.all[101..200].each_with_index do |a, i|
-                    i = i + 102
-                    table << [a.klass, a.name, i.to_s]
-                end
-                puts table.render(:unicode,alignments: [:left, :center, :center])
-            elsif page == 3
-                DndSpells::Spell.spell_sort('k', 3)
-                DndSpells::Spell.all[201..319].each_with_index do |a, i|
-                    i = i + 202
-                    table << [a.klass, a.name, i.to_s]
-                end
-                puts table.render(:unicode,alignments: [:left, :center, :center])
-            end
-        elsif @@klass_sort == false
-            if page == 1
-                DndSpells::Spell.spell_sort('a',1)
-                DndSpells::Spell.all[0..100].each_with_index do |a, i|
-                    i = i + 1
-                    table << [a.klass, a.name, i.to_s]
-                end
-                puts table.render(:unicode,alignments: [:left, :center, :center])
-            elsif page == 2
-                DndSpells::Spell.spell_sort('a',2)
-                DndSpells::Spell.all[101..200].each_with_index do |a, i|
-                    i = i + 102
-                    table << [a.klass, a.name, i.to_s]
-                end
-                puts table.render(:unicode,alignments: [:left, :center, :center])
-            elsif page == 3
-                DndSpells::Spell.spell_sort('a',3)
-                DndSpells::Spell.all[201..319].each_with_index do |a, i|
-                    i = i + 202
-                    table << [a.klass, a.name, i.to_s]
-                end
-                puts table.render(:unicode,alignments: [:left, :center, :center])
-            end
+        #startNum = 0
+        #endNum = 0
+        if page == 1
+            startNum = 0
+            endNum = 100
+        elsif page == 2
+            startNum = 101
+            endNum = 200
+        elsif page == 3
+            startNum = 201
+            endNum = 319
         end
+
+        DndSpells::Spell.spell_sort(@@sort, page)
+        DndSpells::Spell.all[startNum..endNum].each_with_index do |a, i|
+            i += startNum
+            i = i + 1
+            table << [a.klass, a.name, i]
+        end
+        puts table.render(:unicode,alignments: [:left, :center, :center])
     end
 
     def list_spell_attributes(spell_obj)
