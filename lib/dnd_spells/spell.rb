@@ -5,10 +5,10 @@ class DndSpells::Spell
     @@all = []
 
     def initialize(name, index) 
-        @id_num = @@all.length + 1
-        @name = name
-        @spell_index = index
-        set_klass(index)
+        self.id_num = @@all.length + 1
+        self.name = name
+        self.spell_index = index
+        self.set_klass(index)
         save
     end
 
@@ -26,7 +26,7 @@ class DndSpells::Spell
 
     def set_klass(index)
         spell_data = DndSpells::API.get_spell_attributes(index)
-        @klass = spell_data["classes"][0]["name"]
+        self.klass = spell_data["classes"][0]["name"]
     end
 
     def self.all

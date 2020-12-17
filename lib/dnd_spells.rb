@@ -5,14 +5,14 @@ module DndSpells
   # Your code goes here...
 end
 
-
-require_relative "./dnd_spells/cli"
-require_relative "./dnd_spells/api"
-require_relative "./dnd_spells/spell"
-
 require 'pry'
 require 'httparty'
 require 'tty-progressbar'
 require 'tty-prompt'
 require 'tty-table'
 require 'pastel'
+
+require_relative "./dnd_spells/cli"
+require_relative "./dnd_spells/api"
+require_relative "./dnd_spells/spell"
+
