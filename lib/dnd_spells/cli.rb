@@ -1,8 +1,6 @@
 class DndSpells::CLI
     @@current_page = 0
     
-    
-
     def call 
         puts "\nWelcome to Dnd Spells!\n\n"     
         run
@@ -16,22 +14,12 @@ class DndSpells::CLI
             menu.choice "List all spells by character class\n", 2
             menu.choice "Quit\n\n", 3
         end
-
-        check_command_input(input)
         menu_choice(input)
     end
 
     def quit
         puts "\n\nExiting program..."
         puts "\n\nThanks for using this program!\n\n\n"
-    end
-
-    def check_command_input(input)
-        if input >= 1 && input <= 3
-        else
-            puts "\n\nPlease enter correct input.\n\n"
-            run
-        end
     end
 
     def check_spell_input
@@ -43,7 +31,6 @@ class DndSpells::CLI
 
         if input >= 0 && input <= 100 && @@current_page == 1
             spell_obj = DndSpells::Spell.all[input]
-            load_spell_attributes(spell_obj)
             list_spell_attributes(spell_obj)
             print "\nPress any key to continue..."                                                                                                    
             STDIN.getch                                                                                                              
@@ -51,7 +38,6 @@ class DndSpells::CLI
             page1_commands
         elsif input >= 101 && input <= 200 && @@current_page == 2
             spell_obj = DndSpells::Spell.all[input]
-            load_spell_attributes(spell_obj)
             list_spell_attributes(spell_obj)
             print "\nPress any key to continue..."                                                                                                    
             STDIN.getch                                                                                                              
@@ -59,7 +45,6 @@ class DndSpells::CLI
             page2_commands
         elsif input >= 201 && input <= 318 && @@current_page == 3
             spell_obj = DndSpells::Spell.all[input]
-            load_spell_attributes(spell_obj)
             list_spell_attributes(spell_obj)
             print "\nPress any key to continue..."                                                                                                    
             STDIN.getch                                                                                                              
@@ -110,11 +95,7 @@ class DndSpells::CLI
             run
         elsif input == 4
             quit
-        else
-            puts "\n\nPlease enter correct input!\n\n"
-            page1_commands
         end
-
     end
 
     def page2_commands
@@ -148,9 +129,9 @@ class DndSpells::CLI
     end
 
     def page3_commands
-        load_spells(3) if DndSpells::Spell.all[201] == nil
         @@current_page = 3
-        list_spells(3)
+        load_spells(@@current_page) if DndSpells::Spell.all[201] == nil
+        list_spells(@@current_page)
         prompt = TTY::Prompt.new
         input = prompt.select("\n\n What would you like to do?\n", cycle: true) do |menu|
             menu.enum "."
@@ -168,18 +149,11 @@ class DndSpells::CLI
             run
         elsif input == 4
             quit
-        else
-            puts "\n\nPlease enter correct input!\n\n"
-            page3_commands
         end
     end
 
     def load_spells(page)
         DndSpells::Spell.get_spells(page)
-    end
-
-    def load_spell_attributes(spell_obj)
-        DndSpells::Spell.get_spell_attributes(spell_obj)
     end
 
     def list_spells(page)

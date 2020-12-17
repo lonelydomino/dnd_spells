@@ -8,7 +8,17 @@ class DndSpells::Spell
         self.id_num = @@all.length + 1
         self.name = name
         self.spell_index = index
-        self.set_klass(index)
+
+        self.get_spell_attributes(self)
+        # spell_data = DndSpells::API.get_spell_attributes(spell_index)
+        # self.desc = spell_data["desc"][0]
+        # self.range = spell_data["range"]
+        # self.klass = spell_data["classes"][0]["name"]
+        # self.attack_type = spell_data["attack_type"]
+        # self.duration = spell_data["duration"]
+        # self.damage_type = spell_data["damage"]["damage_type"]["name"] if defined?(spell_data["damage"]["damage_type"]["name"]) && spell_data["damage"]["damage_type"]["name"]
+        # self.level = spell_data["level"]
+        # self.school = spell_data["school"]["name"]
         save
     end
 
@@ -22,11 +32,6 @@ class DndSpells::Spell
             bar.advance(1)
             new(name, index)
         end
-    end
-
-    def set_klass(index)
-        spell_data = DndSpells::API.get_spell_attributes(index)
-        self.klass = spell_data["classes"][0]["name"]
     end
 
     def self.all
@@ -57,7 +62,7 @@ class DndSpells::Spell
             DndSpells::API.get_spell_collection(page)
     end
 
-    def self.get_spell_attributes(spell_obj)
+    def get_spell_attributes(spell_obj)
         spell = spell_obj
         
         spell_data = DndSpells::API.get_spell_attributes(spell.spell_index)
