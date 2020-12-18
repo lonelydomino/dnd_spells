@@ -6,7 +6,7 @@ class DndSpells::API
     end
 
     def self.get_spell_collection(page)
-        spells = get_spell_data
+        spells = get_spell_data 
         if page == 1
             DndSpells::Spell.new_from_spell_collection(spells[0..100])
         elsif page == 2

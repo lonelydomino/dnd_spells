@@ -1,24 +1,13 @@
 class DndSpells::Spell
 
-    attr_accessor :name, :id_num, :spell_index, :desc, :desc, :range, :klass, :attack_type, :duration, :level, :damage_type, :school, :klass_id
+    attr_accessor :name, :spell_index, :desc, :range, :klass, :attack_type, :duration, :level, :damage_type, :school
 
     @@all = []
 
     def initialize(name, index) 
-        self.id_num = @@all.length + 1
         self.name = name
         self.spell_index = index
-
         self.get_spell_attributes(self)
-        # spell_data = DndSpells::API.get_spell_attributes(spell_index)
-        # self.desc = spell_data["desc"][0]
-        # self.range = spell_data["range"]
-        # self.klass = spell_data["classes"][0]["name"]
-        # self.attack_type = spell_data["attack_type"]
-        # self.duration = spell_data["duration"]
-        # self.damage_type = spell_data["damage"]["damage_type"]["name"] if defined?(spell_data["damage"]["damage_type"]["name"]) && spell_data["damage"]["damage_type"]["name"]
-        # self.level = spell_data["level"]
-        # self.school = spell_data["school"]["name"]
         save
     end
 
@@ -64,14 +53,13 @@ class DndSpells::Spell
 
     def get_spell_attributes(spell_obj)
         spell = spell_obj
-        
         spell_data = DndSpells::API.get_spell_attributes(spell.spell_index)
         spell.desc = spell_data["desc"][0]
         spell.range = spell_data["range"]
         spell.klass = spell_data["classes"][0]["name"]
         spell.attack_type = spell_data["attack_type"]
         spell.duration = spell_data["duration"]
-        spell.damage_type = spell_data["damage"]["damage_type"]["name"] if defined?(spell_data["damage"]["damage_type"]["name"]) && spell_data["damage"]["damage_type"]["name"]
+        spell.damage_type = spell_data["damage"]["damage_type"]["name"] if defined?(spell_data["damage"]["damage_type"]["name"])
         spell.level = spell_data["level"]
         spell.school = spell_data["school"]["name"]
     end

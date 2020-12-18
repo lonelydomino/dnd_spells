@@ -158,8 +158,6 @@ class DndSpells::CLI
 
     def list_spells(page)
         table = TTY::Table.new(header: ["Class", "Spell Name", "ID"])
-        #startNum = 0
-        #endNum = 0
         if page == 1
             startNum = 0
             endNum = 100
