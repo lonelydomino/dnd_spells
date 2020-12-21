@@ -64,18 +64,6 @@ class DndSpells::Spell
         spell.school = spell_data["school"]["name"]
     end
 
-    def print_spell_attributes
-        puts "\nName: #{self.name}\n"
-        puts "\nDesc: #{self.desc}"
-        puts "Range: #{self.range}"
-        puts "Attack Type: #{self.attack_type}" if self.attack_type != nil
-        puts "Duration: #{self.duration}"
-        puts "Damage Type: #{self.damage_type}" if self.damage_type != nil
-        puts "Level: #{self.level}"
-        puts "Class: #{self.klass}"
-        puts "Magic School: #{self.school}\n"
-    end
-
     def save 
         @@all << self
     end

@@ -179,7 +179,15 @@ class DndSpells::CLI
     end
 
     def list_spell_attributes(spell_obj)
-        spell_obj.print_spell_attributes
+        puts "\nName: #{spell_obj.name}\n"
+        puts "\nDesc: #{spell_obj.desc}"
+        puts "Range: #{spell_obj.range}"
+        puts "Attack Type: #{spell_obj.attack_type}" if spell_obj.attack_type != nil
+        puts "Duration: #{spell_obj.duration}"
+        puts "Damage Type: #{spell_obj.damage_type}" if spell_obj.damage_type != nil
+        puts "Level: #{spell_obj.level}"
+        puts "Class: #{spell_obj.klass}"
+        puts "Magic School: #{spell_obj.school}\n"
     end
 
 end
